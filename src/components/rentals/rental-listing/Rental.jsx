@@ -5,7 +5,7 @@ import helper from './../../../helpers'
 export default class RentalList extends Component {
   render() {
     const rental = this.props.rental;
-    console.log(rental.assets);
+    
     const colorClassname = helper.getCategoryEnglish(`${rental.category}`)
     return (
       <div className={`${this.props.col}`}>
