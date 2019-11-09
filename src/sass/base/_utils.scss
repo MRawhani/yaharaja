@@ -1,0 +1,23 @@
+.bg-primary {
+    background-color: $main-color !important;
+    color: white !important;
+}
+
+.btn {
+    font-size: 1.3rem;
+    &.bg-primary:hover {
+        background-color: $second-color !important;
+    }
+}
+.dropdown-item.active,.dropdown-item:focus{
+    background-color: $main-color !important;
+}
+.clickable{
+    cursor: pointer;
+}
+.btn-success, .btn-danger{
+    margin-right: 5px;
+}
+.deleteMenu{
+    margin-right: 5px;
+}
