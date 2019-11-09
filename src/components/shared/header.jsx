@@ -91,8 +91,8 @@ class Header extends React.Component {
   }
   render() {
     return (
-      <div>
-        <Navbar color="dark" dark expand="md">
+      <div >
+        <Navbar color="black" dark expand="md">
           <div className="container">
             <NavbarBrand tag={RRNavLink} exact to="/">
               ياحراجاه
@@ -106,6 +106,7 @@ class Header extends React.Component {
             </Collapse>
           </div>
         </Navbar>
+
       </div>
     );
   }

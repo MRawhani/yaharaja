@@ -1,40 +1,84 @@
 .navbar {
-    padding: 2rem;
-    margin-bottom: 4rem;
-    background-color: $black-color;
-  
-    .bwm-search {
-      height: 3rem;
-      width: 30rem !important;
-      font-size: 1.5rem;
-    }
-  
-    .navbar-brand {
-      margin-left: 3rem;
-      font-size: 2.7rem;
-      letter-spacing: 1px;
+  padding: 2rem;
+  font-weight: bold;
+  //margin-bottom: 4rem;
+  // background-color: transparent;
+
+  .bwm-search {
+    height: 3rem;
+    width: 30rem !important;
+    font-size: 1.5rem;
+  }
+
+  .navbar-brand {
+    margin-left: 3rem;
+    font-size: 2.7rem;
+    letter-spacing: 1px;
+    color: $main-color !important;
+    font-weight: 500;
+  }
+
+  .nav-item {
+    font-size: 1.4rem;
+  }
+
+  .btn-bwm-search {
+    border-color: $main-color;
+    color: $main-color;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: transparent !important;
+      border-color: $main-color !important;
       color: $main-color !important;
-      font-weight: 500;
-    }
-  
-    .nav-item {
-      font-size: 1.4rem;
-    }
-  
-    .btn-bwm-search {
-      border-color: $main-color;
-      color: $main-color;
-  
-      &:hover, &:focus, &:active {
-        background-color: transparent !important;
-        border-color: $main-color !important;
-        color: $main-color !important;
-        box-shadow: none;
-      }
-    }
-  
-    .nav-item {
-      color: $white-color;
+      box-shadow: none;
     }
   }
-  
+
+  .nav-item {
+    color: black-color;
+  }
+}
+
+.header {
+  background: url('../../imgs/interview_zpoxsi.svg');
+  //https://www.google.com/logos/doodles/2019/30th-anniversary-of-the-fall-of-the-berlin-wall-5163676096004096-2x.png
+  background-position: left;
+  height: 60vh;
+  background-size: 55%;
+  background-repeat: no-repeat;
+  position: relative;
+  @mixin atMedium{
+    background-size: 75%;
+  }
+  &--content {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: 60%;
+
+    & h5 {
+      line-height: 1.6;
+
+    }
+  }
+}
+
+.search-section {
+  position: absolute;
+
+  bottom: 0;
+  right: 50%;
+
+  transform: translateX(50%);
+}
+
+.searchItem {
+  position: absolute;
+  bottom: 0;
+  top: 100%;
+  left: 0;
+  right: 0;
+}

@@ -22,6 +22,7 @@ class RentalSearchInput extends Component {
     
     return (
       <div>
+        
         <form className="form-inline my-2 my-lg-0">
           <input
             onKeyPress={this.handleKeyPress}
