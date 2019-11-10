@@ -21,7 +21,7 @@ class RentalDetail extends Component {
           <div className="upper-section">
             <div className="row">
               <div className="col-md-6">
-                <img src={rental.image} alt=""></img>
+                <img src={rental.image} alt="img detail" style={{height:'360px',width:'550px'}}/>
               </div>
               <div className="col-md-6">
                 <RentalMap location={`${rental.city},${rental.street}`} />
