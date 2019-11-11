@@ -11,7 +11,7 @@ class AxiosInstance {
     initInstance =()=>{
         this.axiosInstance = axios.create({
             baseURL:'',
-            timeout:6000
+            timeout:17000
         })
 
         this.axiosInstance.interceptors.request.use(

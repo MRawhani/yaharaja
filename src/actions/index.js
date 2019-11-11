@@ -172,9 +172,11 @@ export const uploadImage = image =>{
 
   return axiosInstance.post(`${apiUrl}/image-upload`, formData)
   .then(json =>{
+    debugger
     return json.data.imageUrl
   })
-  .catch(({response})=>{
+  .catch((response)=>{
+    debugger
     Promise.reject(response.data.errors[0]);
   })
 }

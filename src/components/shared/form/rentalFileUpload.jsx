@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import * as actions from './../../../actions'
+import * as actions from "./../../../actions";
 export default class rentalFileUpload extends Component {
   constructor() {
     super();
@@ -8,7 +8,7 @@ export default class rentalFileUpload extends Component {
       selectedFile: undefined,
       imageBase64: "",
       pending: false,
-      status:'INIT'
+      status: "INIT"
     };
   }
   setupReader = () => {
@@ -20,7 +20,6 @@ export default class rentalFileUpload extends Component {
     });
   };
   onChange = event => {
-  
     const selectedFile = event.target.files[0];
     if (selectedFile) {
       this.setState({
@@ -28,49 +27,51 @@ export default class rentalFileUpload extends Component {
       });
     }
     this.reader.readAsDataURL(selectedFile);
-  
   };
-  onSuccess=img=>{
+  onSuccess = img => {
     const {
       input: { onChange }
     } = this.props;
-      onChange(img);
-      this.setState({pending:false,status:'DONE'})
-  }
-  renderSpinning=()=>{
-    const {pending} = this.state;
-    if(pending){
-     return(
-      <div className="img-loading-overlay">
-      <div className="img-spinning-circle">
-
-      </div>
-    </div>
-     )
+    onChange(img);
+    this.setState({ pending: false, status: "DONE" });
+  };
+  renderSpinning = () => {
+    const { pending } = this.state;
+    if (pending) {
+      return (
+        <div className="img-loading-overlay">
+          <div className="img-spinning-circle"></div>
+        </div>
+      );
     }
-  }
-  renderImageStatus = ()=>{
-    const { status} = this.state;
-    debugger
-    if(status==='DONE'){
-      return <div className="alert alert-success">تم الرفع</div>
+  };
+  renderImageStatus = () => {
+    const { status } = this.state;
+    ;
+    if (status === "DONE") {
+      return <div className="alert alert-success">تم الرفع</div>;
     }
-    if(status==='FAIL'){
-      return <div className="alert alert-fail">خطأ في الرفع</div>
+    if (status === "FAIL") {
+      return <div className="alert alert-fail">خطأ في الرفع</div>;
     }
-  }
-  onError=err=>{
-    this.setState({pending:false,status:'FAIL'})
-  }
+  };
+  onError = err => {
+    this.setState({ pending: false, status: "FAIL" });
+  };
   uploadImage = () => {
-    const { selectedFile} = this.state;
-    if(selectedFile){
-      this.setState({pending:true,status:'INIT'})
+    const { selectedFile } = this.state;
+    if (selectedFile) {
+      this.setState({ pending: true, status: "INIT" });
       actions.uploadImage(selectedFile).then(
-        (uploadedImage)=> { 
-          this.onSuccess(uploadedImage)},
-        (error)=>{this.onError(error)}
-      )
+        uploadedImage => {
+          
+          this.onSuccess(uploadedImage);
+        },
+        error => {
+          
+          this.onError(error);
+        }
+      );
     }
   };
   render() {
@@ -109,8 +110,6 @@ export default class rentalFileUpload extends Component {
               ></div>
               {this.renderSpinning()}
             </div>
-
-            
           )}
         </div>
         {this.renderImageStatus()}
