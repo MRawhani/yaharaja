@@ -49,12 +49,17 @@ export default class RentalManageCard extends Component {
                   Created at{" "}
                   {moment(userRental.createdAt).format("Y/MM/DD")}
                   {!this.state.wantDelete && (
-                    <button
+                   <React.Fragment>
+                      <button
                       onClick={this.showDeleteMenu}
                       className="btn btn-danger"
                     >
                       حذف
                     </button>
+                    <Link className="btn btn-warning " to={{pathname:`/rentaldetails/${userRental._id}`,state:{isUpdate:true}}}>
+                      تعديل
+                    </Link>
+                   </React.Fragment>
                   )}
                   {this.state.wantDelete && (
                     <div className="deleteMenu">

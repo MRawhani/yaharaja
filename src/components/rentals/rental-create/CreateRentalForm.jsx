@@ -4,7 +4,7 @@ import { Field, reduxForm ,formValueSelector} from "redux-form";
 import { RenderInput } from "./../../shared/form/renderInput";
 import { RenderTextArea } from "./../../shared/form/renderTextArea";
 import { RenderSelect } from "./../../shared/form/renderSelect";
-import RenderFileUpload from "./../../shared/form/rentalFileUpload";
+import RenderFileUpload from "./../../shared/form/RentalFileUpload";
 import { ResError } from "./../../shared/form/ResError";
 
 let CreateRentalForm = props => {

@@ -3,10 +3,11 @@ import DateRangePicker from "react-bootstrap-daterangepicker";
 import BookingModal from "./BookoingModal";
 import helper from "../../helpers/index";
 import moment from "moment";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import * as actions from "./../../actions";
 import { connect } from "react-redux";
+import BookingEditable from "./BookingEditable";
 
 class Booking extends React.Component {
   constructor() {
@@ -119,27 +120,34 @@ class Booking extends React.Component {
     }
   };
   render() {
-    const {
-      rental,
-      isAuth
-    } = this.props;
-    debugger
+    const { rental, isAuth, bookingEditable, urlId } = this.props;
+    debugger;
     const { startAt, endAt, guests } = this.state.proposedBooking;
     return (
       <div className="booking">
-        <ToastContainer />
-        <h3 className="booking-price">
-          $ {rental.price} <span className="booking-per-night">لليلة</span>
-        </h3>
+       
+        {bookingEditable ? (
+          <BookingEditable
+            rental={rental}
+            urlId={urlId}
+            className={"booking-price"}
+          />
+        ) : (
+          <h3 className="booking-price">
+            {rental.coin} {rental.price}{" "}
+            <span className="booking-per-night">لليلة</span>
+          </h3>
+        )}
+
         <hr></hr>
-        {
-          !isAuth &&   <Link
-         to={{pathname:'/login'}}
-          className="btn bg-primary btn-confirm btn-block"
-        >
-         Login
-        </Link>
-        }
+        {!isAuth && (
+          <Link
+            to={{ pathname: "/login" }}
+            className="btn bg-primary btn-confirm btn-block"
+          >
+            Login
+          </Link>
+        )}
         {isAuth && (
           <React.Fragment>
             <div className="form-group">
@@ -198,9 +206,8 @@ class Booking extends React.Component {
   }
 }
 const mapStateToProps = state => {
-  debugger
   return {
-    isAuth:state.auth.isAuth
+    isAuth: state.auth.isAuth
   };
 };
 export default connect(mapStateToProps)(Booking);

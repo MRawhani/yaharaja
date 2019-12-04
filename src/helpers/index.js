@@ -20,7 +20,15 @@ const getRangeOfDates = (startAt, endAt, dateFormat)=>{
 
     return tempDates;
 }
+const getCategoriesArray=()=>{
+    return [{value:'شقة',text:'شقة'},{value:'بيت',text:'بيت'},{value:'غرفة',text:'غرفة'},{value:'فلة',text:'فلة'}]
+    }
+    const getCoinsArray=()=>{
+        return [{value:'$',text:'دولار'},{value:'YER',text:'ريال يمني'},{value:'SAR',text:'ريال سعودي'}]
+        }
 export default {
     getCategoryEnglish,
-    getRangeOfDates
+    getRangeOfDates,
+    getCategoriesArray,
+    getCoinsArray
 }

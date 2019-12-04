@@ -26,19 +26,20 @@ exports.getRentals = function(req, res) {
       res.json(foundedElements);
     });
 };
-exports.manageRentals= function(req,res){
+exports.manageRentals = function(req, res) {
   const user = res.locals.user;
 
-  RentalModel.where({user}).populate('bookings').exec(function(err,foundedRentals){
-    if(err){
-      return res
+  RentalModel.where({ user })
+    .populate("bookings")
+    .exec(function(err, foundedRentals) {
+      if (err) {
+        return res
           .status(422)
           .send({ errors: MongooseErrHandler.normalizeErrors(err.errors) });
-    
-    }
-    return res.json(foundedRentals)
-  })
-}
+      }
+      return res.json(foundedRentals);
+    });
+};
 exports.getRentalById = function(req, res) {
   const rentalId = req.params.id;
 
@@ -59,10 +60,10 @@ exports.getRentalById = function(req, res) {
 
 exports.deleteRental = function(req, res) {
   const user = res.locals.user;
-  
+
   RentalModel.findById(req.params.id)
     .populate("user", "_id")
-    .populate({   
+    .populate({
       path: "bookings",
       select: "startAt",
       match: { startAt: { $gt: new Date() } }
@@ -74,7 +75,7 @@ exports.deleteRental = function(req, res) {
           .send({ errors: MongooseErrHandler.normalizeErrors(err.errors) });
       }
 
-      if(user.id !== foundedRental.user.id){
+      if (user.id !== foundedRental.user.id) {
         return res.status(422).send({
           errors: [
             {
@@ -84,7 +85,7 @@ exports.deleteRental = function(req, res) {
           ]
         });
       }
-      if(foundedRental.bookings.length >0){
+      if (foundedRental.bookings.length > 0) {
         return res.status(422).send({
           errors: [
             {
@@ -94,19 +95,19 @@ exports.deleteRental = function(req, res) {
           ]
         });
       }
-      foundedRental.remove(function(err){
+      foundedRental.remove(function(err) {
         if (err) {
           return res
             .status(422)
             .send({ errors: MongooseErrHandler.normalizeErrors(err.errors) });
         }
-        return res.json({foundedRental,'deleted':true})
-      })
+        return res.json({ foundedRental, deleted: true });
+      });
     });
 };
 exports.createRental = function(req, res) {
   const {
-    title,   
+    title,
     city,
     street,
     category,
@@ -151,4 +152,38 @@ exports.createRental = function(req, res) {
     );
     return res.json(savedRental);
   });
+};
+
+exports.editRental = function(req, res) {
+  const rentalData = req.body;
+  const user = res.locals.user;
+
+  RentalModel.findById(req.params.id)
+    .populate("user")
+    .exec(function(err, foundedRental) {
+      if (err) {
+        return res
+          .status(422)
+          .send({ errors: MongooseErrHandler.normalizeErrors(err.errors) });
+      }
+      if (user.id !== foundedRental.user.id) {
+        return res.status(422).send({
+          errors: [
+            {
+              title: "Invalid",
+              detail: `انت لست صاحب هذا العرض`
+            }
+          ]
+        });
+      }
+      foundedRental.set(rentalData);
+      foundedRental.save(function(err,savedRental) {
+        if (err) {
+          return res
+            .status(422)
+            .send({ errors: MongooseErrHandler.normalizeErrors(err.errors) });
+        }
+        return res.status(200).json(savedRental)
+      });
+    }); 
 };

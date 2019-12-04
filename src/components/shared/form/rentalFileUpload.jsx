@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import * as actions from "./../../../actions";
-export default class rentalFileUpload extends Component {
+import * as actions from "../../../actions";
+export default class RentalFileUpload extends Component {
   constructor() {
     super();
     this.setupReader();
@@ -29,9 +29,7 @@ export default class rentalFileUpload extends Component {
     this.reader.readAsDataURL(selectedFile);
   };
   onSuccess = img => {
-    const {
-      input: { onChange }
-    } = this.props;
+    const { onChange } = this.props.input || this.props;
     onChange(img);
     this.setState({ pending: false, status: "DONE" });
   };
@@ -47,12 +45,11 @@ export default class rentalFileUpload extends Component {
   };
   renderImageStatus = () => {
     const { status } = this.state;
-    ;
     if (status === "DONE") {
       return <div className="alert alert-success">تم الرفع</div>;
     }
     if (status === "FAIL") {
-      return <div className="alert alert-fail">خطأ في الرفع</div>;
+      return <div className="alert alert-danger">خطأ في الرفع</div>;
     }
   };
   onError = err => {
@@ -64,20 +61,15 @@ export default class rentalFileUpload extends Component {
       this.setState({ pending: true, status: "INIT" });
       actions.uploadImage(selectedFile).then(
         uploadedImage => {
-          
           this.onSuccess(uploadedImage);
         },
         error => {
-          
           this.onError(error);
         }
       );
     }
   };
   render() {
-    const {
-      meta: { touched, error }
-    } = this.props;
     const { selectedFile, imageBase64 } = this.state;
     return (
       <div>
@@ -100,8 +92,8 @@ export default class rentalFileUpload extends Component {
               رفع
             </button>
           )}
-          {touched &&
-            (error && <div className="alert alert-danger">{error}</div>)}
+          {/* {touched &&
+            (error && <div className="alert alert-danger">{error}</div>)} */}
           {imageBase64 && (
             <div className="img-preview-container">
               <div

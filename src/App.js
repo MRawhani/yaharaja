@@ -17,6 +17,7 @@ import RentalSearchListing from "./components/rentals/rental-listing/RentalSearc
 import CreateRental from "./components/rentals/rental-create/CreateRental";
 import BookingManage from "./components/booking/BookingManage";
 import RentalManage from "./components/rentals/RentalManage";
+import { ToastContainer } from "react-toastify";
 
 class  App extends React.Component {
   componentDidMount(){
@@ -29,7 +30,7 @@ class  App extends React.Component {
     return (
       <React.Fragment>
         <Header logout={this.logoutUser}/>
-  
+        <ToastContainer />
         <div className="container">
           <Switch>
           <Route
@@ -56,7 +57,7 @@ class  App extends React.Component {
             <Route
               path="/rentaldetails/:id"
               exact
-              component={RentalDetail}
+              component={props => <RentalDetail {...props}/>}
             />
             <Route
               exact

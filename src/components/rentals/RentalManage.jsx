@@ -46,7 +46,7 @@ export default class RentalManage extends Component {
     return (
       <div>
         <section id="userRentals">
-          <ToastContainer />
+      
           <h1 className="page-title">عروضي</h1>
           <div className="row">
             {userRentals.map((userRental, i) => {

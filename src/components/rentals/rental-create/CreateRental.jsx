@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import CreateRentalForm from './CreateRentalForm';
 import {Redirect} from 'react-router-dom'
-import * as actions from '../../../actions'
+import * as actions from '../../../actions';
+import helper from './../../../helpers'
 
 export default class CreateRental extends Component {
   constructor(){
@@ -40,13 +41,13 @@ export default class CreateRental extends Component {
         <div className="app-form">
           <div className="row">
             <div className="col-md-5">
-              <h1 className="page-title">Create Rental</h1>
+              <h1 className="page-title">أنشئ عرض</h1>
               <CreateRentalForm submitForm={this.submitForm} options={this.rentalOptions} errors={errors}/>
             </div>
             <div className="col-md-6 ml-auto">
               <div className="image-container">
                 <h2 className="catchphrase">
-                  Hundreds of awesome places in reach of few clicks.
+                  مئات من الشقق الرائعة بين يديك.
                 </h2>
                 <img
                   src={process.env.PUBLIC_URL + "/img/create-rental.jpg"}

@@ -1,19 +1,55 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import RentalMap from "./RentalMap";
-import { fetchRentalById } from "../../../actions";
-import RentalAssets from "./RentalAssets";
+import { fetchRentalById,updateRental } from "../../../actions";
 import helper from "./../../../helpers";
-import Booking  from "../../booking/Booking";
+import Booking from "../../booking/Booking";
+import RentalDetailInfo from "./RentalDetailInfo";
+import RentalDetailUpdate from "./RentalDetailUpdate";
+import EditableImage from "./../../shared/editable/EditableImage";
 class RentalDetail extends Component {
+  constructor() {
+    super();
+    this.state = {
+      bookingEditable: false
+    };
+  }
   componentDidMount() {
     // const rentaId= parseInt(this.props.match.params.id,10);
+    const { isUpdate } = this.props.location.state || false;
 
+    isUpdate && this.bookingUpdate();
     this.props.fetchRentalById(this.props.match.params.id);
   }
+  bookingUpdate = () => {
+    this.setState({
+      bookingEditable: true
+    });
+  };
+   updateRentalData = (id,rentalData) => {
+    debugger;
+    this.props.updateRental(id, rentalData);
+  };
+  renderDetails = (rental, colorClassname, errors) => {
+    const { isUpdate } = this.props.location.state || false;
+
+    return isUpdate ? (
+      <React.Fragment>
+        <RentalDetailUpdate
+          rental={rental}
+          colorClassname={colorClassname}
+          updateRental={this.updateRentalData}
+          errors={errors}
+        />
+      </React.Fragment>
+    ) : (
+      <RentalDetailInfo rental={rental} colorClassname={colorClassname} />
+    );
+  };
 
   render() {
-    const { rental } = this.props;
+    const { isUpdate } = this.props.location.state || false;
+    const { rental, errors } = this.props;
     const colorClassname = helper.getCategoryEnglish(`${rental.category}`);
     if (rental._id) {
       return (
@@ -21,7 +57,16 @@ class RentalDetail extends Component {
           <div className="upper-section">
             <div className="row">
               <div className="col-md-6">
-                <img src={rental.image} alt="img detail" style={{height:'360px',width:'550px'}}/>
+                {!isUpdate && (
+                  <img
+                    src={rental.image}
+                    alt="img detail"
+                    style={{ height: "360px", width: "550px" }}
+                  />
+                )}
+                {isUpdate && (
+                  <EditableImage entity={rental} entityValue="image" updateEntity={this.updateRentalData}/>
+                )}
               </div>
               <div className="col-md-6">
                 <RentalMap location={`${rental.city},${rental.street}`} />
@@ -32,31 +77,15 @@ class RentalDetail extends Component {
           <div className="details-section">
             <div className="row">
               <div className="col-md-8">
-                <div className="rental">
-                  <h2 className={`rental-type ${colorClassname}`}>
-                    {rental.city} &#183; {rental.street}
-                  </h2>
-                  <div className="rental-owner">
-                    <img
-                      src="https://api.adorable.io/avatars/285/abott@adorable.png"
-                      alt="owner"
-                    />
-                    <span>{rental.user && rental.user.username}</span>
-                  </div>
-
-                  <h1 className="rental-title">{rental.title}</h1>
-                  <h2 className={`rental-city  ${colorClassname}`}>
-                    {rental.category} &#183; {rental.type}
-                  </h2>
-
-                  <p className="rental-description">{rental.description}</p>
-                  <hr></hr>
-                  <RentalAssets rentals={rental} />
-                </div>
+                {this.renderDetails(rental, colorClassname, errors)}
               </div>
               <div className="col-md-4">
                 {" "}
-                <Booking rental={rental} />{" "}
+                <Booking
+                  rental={rental}
+                  bookingEditable={this.state.bookingEditable}
+                  urlId={this.props.match.params.id}
+                />{" "}
               </div>
             </div>
           </div>
@@ -70,11 +99,9 @@ class RentalDetail extends Component {
 
 const mapStateToProps = state => {
   return {
-    rental: state.rental.data
+    rental: state.rental.data,
+    errors: state.rental.errors
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { fetchRentalById }
-)(RentalDetail);
+export default connect(mapStateToProps, { fetchRentalById,updateRental })(RentalDetail);

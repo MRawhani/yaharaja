@@ -9,7 +9,10 @@ import {
   FETCH_RENTALS_INIT,
   FETCH_BOOKINGS_SUCCESS,
   FETCH_BOOKINGS_FAIL,
-  FETCH_BOOKINGS_INIT
+  FETCH_BOOKINGS_INIT,
+  UPDATE_RENTAL_SUCCESS,
+  UPDATE_RENTAL_FAIL,
+  RESET_RENTAL_ERRORS
 } from "./types";
 import axios from "axios";
 import authService from "../services/auth-service";
@@ -177,6 +180,27 @@ export const uploadImage = image =>{
   })
   .catch((response)=>{
     debugger
-    Promise.reject(response.data.errors[0]);
+    Promise.reject(response.response.data.errors[0]);
   })
+}
+export const resetRentalErrors=()=>{
+  debugger
+  return { type: RESET_RENTAL_ERRORS }
+}
+export const updateRental= (id,rentalData) => dispatch => {
+  axiosInstance
+    .patch(`${apiUrl}/rentals/${id}`,rentalData)
+    .then(rentals => {
+      debugger
+      dispatch({ type: UPDATE_RENTAL_SUCCESS, payload: rentals.data });
+    })
+    .catch(err => {
+      debugger
+      dispatch({
+        type: UPDATE_RENTAL_FAIL,
+        payload: err.response
+          ? err.response.data.errors
+          : [{ detail: err.message }]
+      });
+    });
 }
